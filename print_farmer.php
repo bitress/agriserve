@@ -411,12 +411,76 @@ $pdf->Write(0, addLetterSpacing("09123456789", 2.5)); // emergency contact name
 
 
 
-$pdf->AddPage('P', 'Legal');
+//$pdf->AddPage('P', 'Legal');
 
 $tplId2 = $pdf->importPage(2);
 $size = $pdf->getTemplateSize($tplId2);
 $pdf->useTemplate($tplId2, 0, 0, 215, 350);
 
+
+$yCoordinates = [40, 82, 123];
+
+foreach ($yCoordinates as $y) {
+    $pdf->SetXY(50, $y);
+    $pdf->setFontSize(8);
+    $pdf->Write(0, "Farm Barangay");
+
+    $pdf->SetXY(50, $y + 5);
+    $pdf->setFontSize(8);
+    $pdf->Write(0, "Farm Municipality");
+
+    $pdf->SetXY(50, $y + 10);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "10"); // hectares
+
+    $pdf->SetXY(50, $y + 19);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "1"); // ownership document no.
+
+    $pdf->SetXY(64, $y + 15);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // within ancestral domain, yes
+
+    $pdf->SetXY(79, $y + 15);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // within ancestral domain, no
+
+    $pdf->SetXY(64, $y + 22);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // agrarian reform , yes
+
+    $pdf->SetXY(79, $y + 22);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // agrarian reform, no
+
+    $pdf->SetXY(22, $y + 29);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // ownership type, owner
+
+    $pdf->SetXY(52, $y + 29);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // ownership type, others
+
+    $pdf->SetXY(65, $y + 29);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "balls"); // ownership type, lessee
+
+    $pdf->SetXY(22, $y + 33);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/");// ownership type, tenant
+
+    $pdf->SetXY(56, $y + 33);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "balls");// ownership type, tenant name
+
+    $pdf->SetXY(22, $y + 37);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "/"); // ownership type, lessee
+
+    $pdf->SetXY(56, $y + 37);
+    $pdf->setFontSize(7);
+    $pdf->Write(0, "balls"); // ownership type, lessee
+}
 
 
 $pdf->Output('I', 'generated.pdf');

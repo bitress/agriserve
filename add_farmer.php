@@ -461,31 +461,40 @@ $page = "farmer_info";
 
                                             <div id="dynamicRows">
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <label>Ownership Type</label>
-                                                    <select class="form-control" name="ownership_type[]">
-                                                        <option value="certificateOfLandTransfer">Certificate of Land Transfer</option>
-                                                        <option value="emancipationPatent">Emancipation Patent</option>
-                                                        <option value="individualCertificateOfLand">Individual Certificate of Land</option>
-                                                        <option value="collectiveCLOA">Collective CLOA</option>
-                                                        <option value="coownershipCLOA">Co-ownership CLOA</option>
-                                                        <option value="agriculturalSalesPatent">Agricultural Sales Patent</option>
-                                                        <option value="homesteadPatent">Homestead Patent</option>
-                                                        <option value="freePatent">Free Patent</option>
-                                                        <option value="certificateOfTitle">Certificate of Title or Regular Title</option>
-                                                        <option value="certificateOfAncestralDomainTitle">Certificate of Ancestral Domain Title</option>
-                                                        <option value="certificateOfAncestralLandTitle">Certificate of Ancestral Land Title</option>
-                                                        <option value="taxDeclaration">Tax Declaration</option>
-                                                        <option value="others">Others (e.g., Barangay Certification)</option>
+                                                <div class="col-md-4">
+                                                    <label>Ownership Document Type</label>
+                                                    <select class="form-control" name="document_type[]">
+                                                        <?php
+                                                            $sql = "SELECT * FROM ownership_document_type";
+                                                            $stmt = $db->query($sql);
+                                                            if ($stmt->execute()){
+                                                                while ($res = $stmt->fetch(PDO::FETCH_ASSOC)){
+                                                                    echo '<option ="'. $res['ownership_document_type_id'] .'">'. $res['ownership_document_type_name'] .'</option>';
+                                                                }
+                                                            }
+                                                        ?>
                                                     </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                        <label>Ownership Type</label>
+                                                    <select class="form-control" name="ownership_type[]">
+                                                        <option value="Registered Owner">Registered Owner</option>
+                                                        <option value="Tenant">Tenant</option>
+                                                        <option value="Lessee">Lessee</option>
+                                                        <option value="Others">Others</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Name of the Land Owner (if Tenant or Lessee) / Others</label>
+                                                    <input type="text" class="form-control" placeholder="Land Owner/ if others, specify" name="land_owner[]">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Land Area</label>
-                                                    <input type="text" class="form-control" placeholder="Land Area" name="land_area[]">
+                                                    <input type="text" class="form-control" placeholder="Land Area (in hectares)" name="land_area[]">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Land Location</label>
-                                                    <input type="text" class="form-control" placeholder="Land Location" name="land_location[]">
+                                                    <input type="text" class="form-control" placeholder="Land Location (ex. Poblacion, Sudipen)" name="land_location[]">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label>Ownership Document Number</label>
