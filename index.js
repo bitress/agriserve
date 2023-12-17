@@ -333,13 +333,13 @@ var my_handlers = {
     },
 
     fill_birthplace_provinces: function () {
-        var region_code = $(this).val();
-        $('#add_birthplace_province').ph_locations('fetch_list', [{ "region_code": region_code }]);
+        var region_code_ = $(this).val();
+        $('#add_birthplace_province').ph_locations('fetch_list', [{ "region_code": region_code_ }]);
     },
 
     fill_birthplace_cities: function () {
-        var province_code = $(this).val();
-        $('#add_birthplace_municipality').ph_locations('fetch_list', [{ "province_code": province_code }]);
+        var province_code_ = $(this).val();
+        $('#add_birthplace_municipality').ph_locations('fetch_list', [{ "province_code": province_code_ }]);
     },
 };
 
@@ -350,7 +350,6 @@ $(function () {
 
     $('#add_birthplace_region').on('change', my_handlers.fill_birthplace_provinces);
     $('#add_birthplace_province').on('change', my_handlers.fill_birthplace_cities);
-    $('#add_birthplace_municipality').on('change', my_handlers.fill_barangays);
 
     $('#add_region').ph_locations({ 'location_type': 'regions' });
     $('#add_province').ph_locations({ 'location_type': 'provinces' });

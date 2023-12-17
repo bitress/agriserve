@@ -146,6 +146,16 @@ $page = "farmer_info";
                             <div class="card">
                                 <div class="card-body">
                                     <form id="add_farmer_form">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                <label>2x2 Picture</label>
+                                                <input type="file" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="mb-3">
@@ -308,7 +318,7 @@ $page = "farmer_info";
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <label for="is_ip">Is Indigenous Person (IP)</label>
                                                     <select id="is_ip" name="is_ip" class="form-control">
@@ -317,6 +327,15 @@ $page = "farmer_info";
                                                     </select>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <label for="is_ip">If is an Indigenous Person (IP), what?</label>
+                                                   <input type="text" name="ip_name" id="ip_name" class="form-control">
+                                                </div>
+                                            </div>
+
+
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label for="government_id_type">Government ID Type</label>
@@ -376,7 +395,7 @@ $page = "farmer_info";
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <label for="is_household_head">Is Household Head</label>
                                                     <select id="is_household_head" name="is_household_head" class="form-control">
@@ -386,6 +405,12 @@ $page = "farmer_info";
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="household_head_name">If not Household Head? Who?</label>
+                                                    <input type="text" name="household_head_name" id="household_head_name" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <label for="household_head_relationship">Household Head Relationship</label>
                                                     <input type="text" name="household_head_relationship" id="household_head_relationship" class="form-control">
