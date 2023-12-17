@@ -1,0 +1,10 @@
+{
+  "require": {
+    "tecnickcom/tcpdf": "6.3.*",
+    "setasign/fpdi": "*",
+    "ext-pdo": "*",
+    "fpdf/fpdf": "^1.86",
+    "setasign/fpdf": "^1.8",
+    "ext-json": "*"
+  }
+}
