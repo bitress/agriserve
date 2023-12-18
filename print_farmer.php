@@ -411,75 +411,94 @@ $pdf->Write(0, addLetterSpacing("09123456789", 2.5)); // emergency contact name
 
 
 
-//$pdf->AddPage('P', 'Legal');
+$pdf->AddPage('P', 'Legal');
 
 $tplId2 = $pdf->importPage(2);
 $size = $pdf->getTemplateSize($tplId2);
 $pdf->useTemplate($tplId2, 0, 0, 215, 350);
 
 
-$yCoordinates = [40, 82, 123];
 
-foreach ($yCoordinates as $y) {
-    $pdf->SetXY(50, $y);
-    $pdf->setFontSize(8);
-    $pdf->Write(0, "Farm Barangay");
 
-    $pdf->SetXY(50, $y + 5);
-    $pdf->setFontSize(8);
-    $pdf->Write(0, "Farm Municipality");
+$sql = "SELECT * FROM farmer_land_info LEFT JOIN ownership_document_type ON ownership_document_type.ownership_document_type_id = farmer_land_info.ownership_document_number LEFT JOIN cultivated_plants ON cultivated_plants.land_id = farmer_land_info.farmer_land_id LEFT JOIN crops ON crops.crop_id = cultivated_plants.crop_id WHERE farmer_land_info.farmer_id = {$id} LIMIT 3";
+$stmt = $db->prepare($sql);
+if ($stmt->execute()){
+    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $count = $stmt->rowCount();
+    $yCoordinates = ($count == 1) ? [40] : (($count == 2) ? [40, 82] : [40, 82, 123]);
 
-    $pdf->SetXY(50, $y + 10);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "10"); // hectares
+    foreach ($row as $index => $res) {
+        $y = $yCoordinates[$index];
 
-    $pdf->SetXY(50, $y + 19);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "1"); // ownership document no.
 
-    $pdf->SetXY(64, $y + 15);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // within ancestral domain, yes
+        $farm_location = explode(', ', $res['location']);
 
-    $pdf->SetXY(79, $y + 15);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // within ancestral domain, no
 
-    $pdf->SetXY(64, $y + 22);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // agrarian reform , yes
+            $pdf->SetXY(50, $y);
+            $pdf->setFontSize(8);
+            $pdf->Write(0, $farm_location[0]);
 
-    $pdf->SetXY(79, $y + 22);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // agrarian reform, no
+            $pdf->SetXY(50, $y + 5);
+            $pdf->setFontSize(8);
+            $pdf->Write(0, $farm_location[1] ?? '');
 
-    $pdf->SetXY(22, $y + 29);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // ownership type, owner
+            $pdf->SetXY(50, $y + 10);
+            $pdf->setFontSize(7);
+            $pdf->Write(0, $res['land_area']); // hectares
+        $pdf->SetXY(50, $y + 19);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, $res['ownership_document_number']); // ownership document no.
 
-    $pdf->SetXY(52, $y + 29);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // ownership type, others
+        $pdf->SetXY(64, $y + 15);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['within_ancestral_domain'] == 'Yes') ? '/' : ''); // within ancestral domain, Yes
 
-    $pdf->SetXY(65, $y + 29);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "balls"); // ownership type, lessee
+        $pdf->SetXY(79, $y + 15);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['within_ancestral_domain'] == 'No') ? '/' : ''); // within ancestral domain, No
 
-    $pdf->SetXY(22, $y + 33);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/");// ownership type, tenant
+        $pdf->SetXY(64, $y + 22);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['agrarian_reform_beneficiary'] == 'Yes') ? '/' : ''); // agrarian reform , Yes
 
-    $pdf->SetXY(56, $y + 33);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "balls");// ownership type, tenant name
+        $pdf->SetXY(79, $y + 22);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['agrarian_reform_beneficiary'] == 'No') ? '/' : ''); // agrarian reform, No
 
-    $pdf->SetXY(22, $y + 37);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "/"); // ownership type, lessee
+        $pdf->SetXY(22, $y + 29);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'Registered Owner') ? '/' : ''); // ownership type, owner
 
-    $pdf->SetXY(56, $y + 37);
-    $pdf->setFontSize(7);
-    $pdf->Write(0, "balls"); // ownership type, lessee
+        $pdf->SetXY(52, $y + 29);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'others') ? '/' : ''); // ownership type, others
+
+        $pdf->SetXY(65, $y + 29);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'Others') ? $res['land_owner'] : ''); // ownership type, land_owner
+
+        $pdf->SetXY(22, $y + 33);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'Tenant') ? '/' : ''); // ownership type, tenant
+
+        $pdf->SetXY(56, $y + 33);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'Tenant') ? 'Tenant' : ''); // ownership type, land_owner
+
+        $pdf->SetXY(22, $y + 37);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'Lessee') ? '/' : ''); // ownership type, lessee
+
+        $pdf->SetXY(56, $y + 37);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, ($res['ownership_type'] == 'Lessee') ? $res['land_owner'] : ''); // ownership type, land_owner
+
+            $y += 40;
+             if ($index >= count($yCoordinates) - 1) {
+                 break;
+
+        }
+    }
 }
 
 
