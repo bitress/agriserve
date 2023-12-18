@@ -93,6 +93,20 @@ $pdf->setSourceFile('RSBSA.pdf');
 $tplIdx = $pdf->importPage(1);
 $size = $pdf->getTemplateSize($tplIdx);
 $pdf->useTemplate($tplIdx, 0, 0, 215, 350);
+
+
+//'http://localhost/agriserve/uploads/Untitled%20Project.jpg'
+
+if (!empty($farmer['profile_image'])){
+    $pfp_url = APP_URL . '/uploads/'. $farmer['profile_image'];
+} else {
+    $pfp_url = "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/corporate-user-icon.png";
+}
+
+
+
+$pdf->Image($pfp_url, 160, 12, 45, 0, );
+
 $pdf->SetFont('Arial');
 $pdf->SetXY(30, 71);
 $pdf->setFontSize(9);
@@ -449,15 +463,15 @@ if ($stmt->execute()){
         $pdf->setFontSize(7);
         $pdf->Write(0, $res['ownership_document_number']); // ownership document no.
 
-        $pdf->SetXY(64, $y + 15);
+        $pdf->SetXY(65, $y + 15);
         $pdf->setFontSize(7);
         $pdf->Write(0, ($res['within_ancestral_domain'] == 'Yes') ? '/' : ''); // within ancestral domain, Yes
 
-        $pdf->SetXY(79, $y + 15);
+        $pdf->SetXY(80, $y + 15);
         $pdf->setFontSize(7);
         $pdf->Write(0, ($res['within_ancestral_domain'] == 'No') ? '/' : ''); // within ancestral domain, No
 
-        $pdf->SetXY(64, $y + 22);
+        $pdf->SetXY(65, $y + 22);
         $pdf->setFontSize(7);
         $pdf->Write(0, ($res['agrarian_reform_beneficiary'] == 'Yes') ? '/' : ''); // agrarian reform , Yes
 
@@ -498,6 +512,25 @@ if ($stmt->execute()){
                  break;
 
         }
+
+        $additionalY = [45, 85, 128];
+
+        for ($i = 0; $i < 5; $i++) {
+            $pdf->SetXY(105, $additionalY[$index] + $i * 8);
+            $pdf->setFontSize(8);
+            $pdf->Write(0, $res['crop_name'] ?? '');
+
+            $pdf->SetXY(130, $additionalY[$index] + $i * 8);
+            $pdf->setFontSize(8);
+            $pdf->Write(0, $res['size'] ?? '');
+
+            $pdf->SetXY(160, $additionalY[$index] + $i * 8);
+            $pdf->setFontSize(8);
+            $pdf->Write(0, $res['farm_type'] ?? '');
+        }
+
+
+
     }
 }
 

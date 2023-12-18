@@ -35,9 +35,10 @@ class Farmers
 
     public function addFarmer($data)
     {
-        $query = "INSERT INTO farmer_info (firstname, middlename, surname, extension_name, address, sex, mobile_number, date_of_birth, place_of_birth, religion, civil_status, highest_formal_education, mother_maiden_name, spouse_name, is_pwd, is_4ps, is_ip, has_government_id, government_id_type, government_id_number, is_associated, association_name, is_household_head, household_head_name, household_head_relationship, living_household_members, no_of_female, no_of_male, emergency_contact_name, emergency_contact_number) 
-                  VALUES (:firstname, :middlename, :surname, :extension_name, :address, :sex, :mobile_number, :date_of_birth, :place_of_birth, :religion, :civil_status, :highest_formal_education, :mother_maiden_name, :spouse_name, :is_pwd, :is_4ps, :is_ip, :has_government_id, :government_id_type, :government_id_number, :is_associated, :association_name, :is_household_head, :household_head_name, :household_head_relationship, :living_household_members, :no_of_female, :no_of_male, :emergency_contact_name, :emergency_contact_number)";
-
+        $query = "INSERT INTO farmer_info (firstname, middlename, surname, extension_name, address, sex, mobile_number, date_of_birth, place_of_birth, religion, civil_status, highest_formal_education, mother_maiden_name, spouse_name, is_pwd, is_4ps, is_ip, has_government_id, government_id_type, government_id_number, is_associated, association_name, is_household_head, household_head_name, household_head_relationship, living_household_members, no_of_female, no_of_male, emergency_contact_name, emergency_contact_number, 
+                         profile_image, household_owner, indigenous_group) 
+                  VALUES (:firstname, :middlename, :surname, :extension_name, :address, :sex, :mobile_number, :date_of_birth, :place_of_birth, :religion, :civil_status, :highest_formal_education, :mother_maiden_name, :spouse_name, :is_pwd, :is_4ps, :is_ip, :has_government_id, :government_id_type, :government_id_number, :is_associated, :association_name, :is_household_head, :household_head_name, :household_head_relationship, :living_household_members, :no_of_female, :no_of_male, :emergency_contact_name, :emergency_contact_number, 
+                          :profile_image, :household_head_name, :ip_name)";
         return $this->executeStatement($query, $data);
     }
 

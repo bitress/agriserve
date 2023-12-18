@@ -98,11 +98,37 @@ function handleEditFarmer() {
     }
 }
 
+function handleUpload($picture){
+        $file = $_FILES["picture"];
+
+        if ($file["error"] === UPLOAD_ERR_OK) {
+            $uploadDir =   "../uploads/";
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $uploadPath = $uploadDir . $file["name"];
+            move_uploaded_file($file["tmp_name"], $uploadPath);
+
+            return $file["name"];
+        } else {
+            echo "Error during file upload: " . $file["error"];
+        }
+}
+
 
 function handleAddFarmer() {
     $farmers = new Farmers();
 
+    if (isset($_FILES["picture"])){
+        $pfp = $_FILES["picture"];
+        $pfp_name = handleUpload($pfp);
+    } else {
+        $pfp_name = "uploads/default.png";
+    }
+
     $data = array(
+        'profile_image' => $pfp_name,
+        "ip_name" => $_POST['ip_name'],
         'firstname' => $_POST['first_name'],
         'middlename' => $_POST['middle_name'],
         'surname' => $_POST['last_name'],
@@ -126,7 +152,7 @@ function handleAddFarmer() {
         'is_associated' => $_POST['is_associated'],
         'association_name' => $_POST['association_name'],
         'is_household_head' => $_POST['is_household_head'],
-        'household_head_name' => $_POST['first_name'],  // Assuming the first name is the household head name
+        'household_head_name' => $_POST['household_head_name'],  // Assuming the first name is the household head name
         'household_head_relationship' => $_POST['household_head_relationship'],
         'living_household_members' => $_POST['living_household_members'],
         'no_of_female' => $_POST['no_of_female'],

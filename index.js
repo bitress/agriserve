@@ -274,11 +274,18 @@ $(document).ready(function () {
 
     $("#add_farmer_form").on("submit", function (e) {
         e.preventDefault();
+        var fileInput = document.getElementById('picture');
 
         var formData = new FormData(this);
         function handleDropdownChange(dropdown, key) {
             formData.append(key, dropdown.find('option:selected').text());
         }
+
+        if (fileInput.files.length > 0) {
+            formData.append('picture', fileInput.files[0]);
+        }
+
+
 
         handleDropdownChange($('#add_province'), 'add_province');
         handleDropdownChange($('#add_municipality'), 'add_municipality');

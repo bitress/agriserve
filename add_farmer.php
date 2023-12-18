@@ -145,13 +145,13 @@ $page = "farmer_info";
                         <div class="w-100">
                             <div class="card">
                                 <div class="card-body">
-                                    <form id="add_farmer_form">
+                                    <form id="add_farmer_form" enctype="multipart/form-data">
 
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                 <label>2x2 Picture</label>
-                                                <input type="file" class="form-control">
+                                                <input type="file" class="form-control" id="picture" name="picture">
                                                 </div>
                                             </div>
                                         </div>
