@@ -45,7 +45,8 @@ if (isset($_GET['id'])) {
         "no_of_female" => $row['no_of_female'],
         "no_of_male" => $row['no_of_male'],
         "emergency_contact_name" => $row['emergency_contact_name'],
-        "emergency_contact_number" => $row['emergency_contact_number']
+        "emergency_contact_number" => $row['emergency_contact_number'],
+        "indigenous_group" => $row['indigenous_group']
     );
 
 
@@ -290,104 +291,104 @@ $pdf->Write(0, $farmer['mother_maiden_name']);
 
 $pdf->SetXY(49, 178);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/");
+$pdf->Write(0, ($farmer['is_household_head']) == "Yes" ? '/': "");
 
 
 $pdf->SetXY(64, 178);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/");
+$pdf->Write(0, ($farmer['is_household_head']) == "No" ? '/': "");
 
 $pdf->SetXY(50, 185);
 $pdf->setFontSize(8);
-$pdf->Write(0, "Name of the household head");
+$pdf->Write(0, ($farmer['is_household_head']) == "No" ? $farmer['household_head_name'] : '');
 
 
 $pdf->SetXY(50, 192);
 $pdf->setFontSize(8);
-$pdf->Write(0, "Relationship household head");
+$pdf->Write(0, ($farmer['is_household_head']) == "No" ? $farmer['household_head_relationship'] : '');
 
 
 $pdf->SetXY(54, 199);
 $pdf->setFontSize(8);
-$pdf->Write(0, "1"); // living household members
+$pdf->Write(0, $farmer['living_household_members']); // living household members
 
 
 $pdf->SetXY(29, 206);
 $pdf->setFontSize(8);
-$pdf->Write(0, "1"); // no. of male household members
+$pdf->Write(0, $farmer['no_of_male']); // no. of male household members
 
 
 $pdf->SetXY(82, 206);
 $pdf->setFontSize(8);
-$pdf->Write(0, "1"); // no. of female household members
+$pdf->Write(0, $farmer['no_of_female']); // no. of female household members
 
 
 
 $pdf->SetXY(163, 136);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is_pwd yes
+$pdf->Write(0, ($farmer['is_pwd']) == "Yes" ? '/': ""); // is_pwd yes
 
 $pdf->SetXY(179, 136);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is_pwd no
+$pdf->Write(0, ($farmer['is_pwd']) == "No" ? '/': ""); // is_pwd no
 
 
 $pdf->SetXY(163, 145);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is_4ps yes
+$pdf->Write(0, ($farmer['is_4ps']) == "Yes" ? '/': ""); // is_4ps yes
 
 $pdf->SetXY(178, 145);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is_4ps no
+$pdf->Write(0, ($farmer['is_pwd']) == "No" ? '/': ""); // is_4ps no
 
 $pdf->SetXY(163, 151);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is_ip yes
+$pdf->Write(0, ($farmer['is_ip']) == "Yes" ? '/': ""); // is_ip yes
 
 $pdf->SetXY(178, 151);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is_ip no
+$pdf->Write(0, ($farmer['is_ip']) == "No" ? '/': "");// is_ip no
 
 
 $pdf->SetXY(128, 157);
 $pdf->setFontSize(8);
-$pdf->Write(0, "HAHAHAHA"); // if is_ip what?
+$pdf->Write(0, ($farmer['is_ip']) == "Yes" ? $farmer['indigenous_group'] : ""); // if is_ip what?
 
 
 $pdf->SetXY(143, 165);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // has government ID?   yes
+$pdf->Write(0, ($farmer['has_government_id']) == "Yes" ? '/': ""); // has government ID?   yes
 
 
 $pdf->SetXY(159, 165);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // has government ID?   no
+$pdf->Write(0, ($farmer['has_government_id']) == "No" ? '/': "");// has government ID?   no
 
 
 $pdf->SetXY(143, 169);
 $pdf->setFontSize(8);
-$pdf->Write(0, "National ID"); // if it has government ID, what id type
+$pdf->Write(0, ($farmer['has_government_id']) == "Yes" ? $farmer['government_id_type'] : ""); // if it has government ID, what id type
 
 
 $pdf->SetXY(143, 174);
 $pdf->setFontSize(8);
-$pdf->Write(0, "27318937129371289"); // if it has government ID, what id number
+$pdf->Write(0, ($farmer['has_government_id']) == "Yes" ? $farmer['government_id_number'] : ""); // if it has government ID, what id number
 
 $pdf->SetXY(181, 180);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is farmer associated? yes
+$pdf->Write(0, ($farmer['is_associated']) == "Yes" ? '/': ""); // is farmer associated? yes
 
 $pdf->SetXY(194, 180);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is farmer associated? no
+$pdf->Write(0, ($farmer['is_associated']) == "No" ? '/': ""); // is farmer associated? no
 
 $pdf->SetXY(128, 187);
 $pdf->setFontSize(8);
-$pdf->Write(0, "HAHHAHAHA"); // if it is farmer associated? what
+$pdf->Write(0, ($farmer['is_associated']) == "Yes" ? $farmer['association_name']: ""); // if it is farmer associated? what
 
 $pdf->SetXY(140, 197);
 $pdf->setFontSize(8);
-$pdf->Write(0, "HAHHAHAHA"); // emergency contact name
+$pdf->Write(0, $farmer['emergency_contact_name']); // emergency contact name
 
 
 
@@ -399,21 +400,21 @@ $pdf->Write(0, "/"); // main livelihood (farmer)
 
 $pdf->SetXY(12, 237);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is farming rice?
+$pdf->Write(0, ""); // is farming rice?
 
 
 $pdf->SetXY(12, 243);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is farming corn?
+$pdf->Write(0, ""); // is farming corn?
 
 
 $pdf->SetXY(12, 250);
 $pdf->setFontSize(8);
-$pdf->Write(0, "/"); // is farming others?
+$pdf->Write(0, ""); // is farming others?
 
 $pdf->SetXY(35, 254);
 $pdf->setFontSize(8);
-$pdf->Write(0, "Butil ng Saging"); // if farming others? what is it?
+$pdf->Write(0, ""); // if farming others? what is it?
 
 
 
@@ -434,7 +435,7 @@ $pdf->useTemplate($tplId2, 0, 0, 215, 350);
 
 
 
-$sql = "SELECT * FROM farmer_land_info LEFT JOIN ownership_document_type ON ownership_document_type.ownership_document_type_id = farmer_land_info.ownership_document_number LEFT JOIN cultivated_plants ON cultivated_plants.land_id = farmer_land_info.farmer_land_id LEFT JOIN crops ON crops.crop_id = cultivated_plants.crop_id WHERE farmer_land_info.farmer_id = {$id} LIMIT 3";
+$sql = "SELECT * FROM farmer_land_info LEFT JOIN ownership_document_type ON ownership_document_type.ownership_document_type_id = farmer_land_info.ownership_document_number WHERE farmer_land_info.farmer_id = {$id} LIMIT 3;";
 $stmt = $db->prepare($sql);
 if ($stmt->execute()){
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -444,21 +445,21 @@ if ($stmt->execute()){
     foreach ($row as $index => $res) {
         $y = $yCoordinates[$index];
 
-
         $farm_location = explode(', ', $res['location']);
 
+        $pdf->SetXY(50, $y);
+        $pdf->setFontSize(8);
+        $pdf->Write(0, $farm_location[0]);
 
-            $pdf->SetXY(50, $y);
-            $pdf->setFontSize(8);
-            $pdf->Write(0, $farm_location[0]);
+        $pdf->SetXY(50, $y + 5);
+        $pdf->setFontSize(8);
+        $pdf->Write(0, $farm_location[1] ?? '');
 
-            $pdf->SetXY(50, $y + 5);
-            $pdf->setFontSize(8);
-            $pdf->Write(0, $farm_location[1] ?? '');
+        $pdf->SetXY(50, $y + 10);
+        $pdf->setFontSize(7);
+        $pdf->Write(0, $res['land_area']); // hectares
 
-            $pdf->SetXY(50, $y + 10);
-            $pdf->setFontSize(7);
-            $pdf->Write(0, $res['land_area']); // hectares
+
         $pdf->SetXY(50, $y + 19);
         $pdf->setFontSize(7);
         $pdf->Write(0, $res['ownership_document_number']); // ownership document no.
@@ -513,26 +514,38 @@ if ($stmt->execute()){
 
         }
 
-        $additionalY = [45, 85, 128];
 
-        for ($i = 0; $i < 5; $i++) {
-            $pdf->SetXY(105, $additionalY[$index] + $i * 8);
-            $pdf->setFontSize(8);
-            $pdf->Write(0, $res['crop_name'] ?? '');
 
-            $pdf->SetXY(130, $additionalY[$index] + $i * 8);
-            $pdf->setFontSize(8);
-            $pdf->Write(0, $res['size'] ?? '');
+        $land_id = $res['farmer_land_id'];
 
-            $pdf->SetXY(160, $additionalY[$index] + $i * 8);
-            $pdf->setFontSize(8);
-            $pdf->Write(0, $res['farm_type'] ?? '');
+        $sql = "SELECT * FROM farmer_land_info INNER JOIN farmer_info ON farmer_info.farmer_id = farmer_land_info.farmer_id INNER JOIN cultivated_plants ON cultivated_plants.land_id = farmer_land_info.farmer_land_id INNER JOIN crops ON cultivated_plants.crop_id = crops.crop_id INNER JOIN farm_type ON cultivated_plants.farm_type = farm_type.farm_type_id WHERE cultivated_plants.land_id = {$land_id}";
+        $stmt = $db->prepare($sql);
+
+        if ($stmt->execute()) {
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $additionalY = [45, 85, 128];
+            foreach ($rows as $i => $row) {
+                $pdf->SetXY(105, $additionalY[$index] + $i * 8);
+                $pdf->setFontSize(8);
+                $pdf->Write(0, $row['crop_name'] ?? '');
+
+                $pdf->SetXY(130, $additionalY[$index]+ $i * 8);
+                $pdf->setFontSize(8);
+                $pdf->Write(0, $row['size'] ?? '');
+
+                $pdf->SetXY(160, $additionalY[$index] + $i * 8);
+                $pdf->setFontSize(8);
+                $pdf->Write(0, $row['farm_type_id'] ?? '');
+            }
+
         }
 
 
-
     }
+
+
 }
+
 
 
 $pdf->Output('I', 'generated.pdf');
