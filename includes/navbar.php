@@ -26,10 +26,14 @@
         </a>
     </li>
 
-    <li class="sidebar-item  <?= ($page === "agri_beneficiaries") ? 'active' : ''; ?>">
-        <a class='sidebar-link' href='agri_beneficiaries.php'>
-            <i class="align-middle" data-feather="list"></i> <span class="align-middle">Agri Adversity</span>
+    <li class="sidebar-item">
+        <a data-bs-target="#adversity" data-bs-toggle="collapse" class="sidebar-link">
+            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Agri Adversity</span>
         </a>
+        <ul id="adversity" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+            <li class="sidebar-item  <?= ($page === "affected_farmer") ? 'active' : ''; ?>"><a class='sidebar-link' href='agri_beneficiaries.php'>Affected Farmers</a></li>
+            <li class="sidebar-item  <?= ($page === "typhoon_report") ? 'active' : ''; ?>"><a class='sidebar-link' href='typhoon_report.php'>Typhoon Report</a></li>
+        </ul>
     </li>
 
 </ul>

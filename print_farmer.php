@@ -508,9 +508,9 @@ if ($stmt->execute()){
         $pdf->setFontSize(7);
         $pdf->Write(0, ($res['ownership_type'] == 'Lessee') ? $res['land_owner'] : ''); // ownership type, land_owner
 
-            $y += 40;
-             if ($index >= count($yCoordinates) - 1) {
-                 break;
+        $y += 40;
+        if ($index >= count($yCoordinates) - 1) {
+            break;
 
         }
 

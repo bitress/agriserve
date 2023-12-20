@@ -176,8 +176,9 @@ $page = "farmer_info";
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="btn-group btn-group-sm ">
-                                                        <button type="button" class="btn btn-primary">
-                                                            <i class="fal fa-print"></i> Print </button>
+                                                        <button type="button" class="btn btn-primary" onclick="window.open('print_farmers.php', '_blank')">
+                                                        <i class="fal fa-print"></i> Print
+                                                    </button>
                                                         <button type="button" class="btn btn-success" onclick="window.location.href='add_farmer.php'">
                                                             <i class="fal fa-user-plus"></i> Add Farmer </button>
                                                     </div>

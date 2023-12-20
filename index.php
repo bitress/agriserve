@@ -48,6 +48,55 @@ foreach ($data as $row) {
     $labels[] = $row['barangay'];
     $values[] = $row['total_farmers'];
 }
+
+
+// Fetch data from the database
+$query = "SELECT tr.typhoon_name, td.barangay, SUM(td.affected_farmers) AS total_affected
+          FROM typhoon_details td
+          JOIN typhoon_report tr ON td.typhoon_id = tr.typhoon_id
+          GROUP BY tr.typhoon_id, td.barangay";
+$stmt = $db->prepare($query);
+$stmt->execute();
+$data__ = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Organize the data for Chart.js
+$chartData = [];
+$labels_ = [];
+$datasets = [];
+
+
+$typhoonColors = [];
+foreach ($data__ as $res) {
+    $typhoonName = $res['typhoon_name'];
+    if (!isset($typhoonColors[$typhoonName])) {
+        $typhoonColors[$typhoonName] = 'rgba(' . mt_rand(0, 255) . ',' . mt_rand(0, 255) . ',' . mt_rand(0, 255) . ', 0.7)';
+    }
+}
+
+
+foreach ($data__ as $res) {
+    $typhoonName = $res['typhoon_name'];
+    $barangay = $res['barangay'];
+    $totalAffected = $res['total_affected'];
+
+    if (!in_array($barangay, $labels)) {
+        $labels_[] = $barangay;
+    }
+
+    if (!isset($datasets[$typhoonName])) {
+        $datasets[$typhoonName] = ['label' => $typhoonName, 'data' => [],             'backgroundColor' => $typhoonColors[$typhoonName],
+        ];
+    }
+
+    $datasets[$typhoonName]['data'][] = $totalAffected;
+}
+
+$chartData['labels'] = $labels_;
+$chartData['datasets'] = array_values($datasets);
+
+// Convert data to JSON for Chart.js
+$chartDataJson = json_encode($chartData);
+
 ?>
 <!doctype html>
 <html>
@@ -215,6 +264,38 @@ foreach ($data as $row) {
                     </div>
 
                 </div>
+
+                    <div class="col-12 col-md-12 col-xxl-12 d-flex order-1 order-xxl-1">
+
+                        <div class="card flex-fill w-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Typhoon Affected Areas</h5>
+                            </div>
+                        <div class="card-body d-flex">
+                            <div class="w-100">
+                                <div class="py-2">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="chart chart-lg">
+                                                <canvas id="owoowowow"></canvas>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+
+                </div>
                 
             </div>
         </main>
@@ -231,6 +312,22 @@ foreach ($data as $row) {
 <script src="js/app.js"></script>
 
 <script>
+
+    var chartData = <?php echo $chartDataJson; ?>;
+
+    // Create the bar chart using Chart.js
+    var ctx = document.getElementById('owoowowow').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            scales: {
+                x: { stacked: true },
+                y: { stacked: true }
+            }
+        }
+    });
+
 
     var labels = <?php echo json_encode($labels); ?>;
     var values = <?php echo json_encode($values); ?>;
